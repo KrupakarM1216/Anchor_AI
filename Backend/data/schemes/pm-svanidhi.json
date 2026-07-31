@@ -1,0 +1,47 @@
+{
+  "id": "pm-svanidhi",
+  "officialName": "PM Street Vendor's AtmaNirbhar Nidhi (PM SVANidhi)",
+  "shortName": "PM SVANidhi",
+  "summary": "Special micro-credit facility for street vendors to resume their livelihoods.",
+  "jurisdiction": "IN",
+  "status": "active",
+  "benefit": {
+    "type": "loan",
+    "displayText": "Working capital loan up to ₹10,000 initially, increasing up to ₹50,000 on repayment",
+    "asOf": "2026-01-15T00:00:00Z"
+  },
+  "eligibility": [
+    {
+      "type": "occupation",
+      "condition": "street_vendor",
+      "displayText": "Must be a street vendor, hawker, or small trader"
+    }
+  ],
+  "exclusions": [
+    "Not holding a Certificate of Vending/Identity Card from Urban Local Bodies"
+  ],
+  "documents": [
+    "Aadhaar card",
+    "Certificate of Vending / ID card issued by ULB",
+    "Bank account details"
+  ],
+  "applicationSteps": [
+    "Visit the PM SVANidhi portal or nearest CSC",
+    "Check eligibility status using Aadhaar and mobile number",
+    "Fill out the application form online",
+    "Upload required documents",
+    "Submit and track application"
+  ],
+  "sources": [
+    {
+      "id": "pmsvanidhi-portal",
+      "title": "PM SVANidhi Official Portal",
+      "publisher": "Ministry of Housing and Urban Affairs",
+      "url": "https://pmsvanidhi.mohua.gov.in",
+      "jurisdiction": "IN",
+      "verifiedAt": "2026-01-15T00:00:00Z"
+    }
+  ],
+  "verifiedAt": "2026-01-15T00:00:00Z",
+  "reviewStatus": "reviewed"
+}

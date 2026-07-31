@@ -1,0 +1,53 @@
+{
+  "id": "ayushman-bharat-pmjay",
+  "officialName": "Ayushman Bharat Pradhan Mantri Jan Arogya Yojana",
+  "shortName": "Ayushman Bharat",
+  "summary": "Health insurance scheme providing coverage of up to ₹5 lakh per family per year for secondary and tertiary care hospitalization.",
+  "jurisdiction": "IN",
+  "status": "active",
+  "benefit": {
+    "type": "insurance",
+    "displayText": "₹5 lakh health insurance per family per year",
+    "asOf": "2026-01-15T00:00:00Z"
+  },
+  "eligibility": [
+    {
+      "type": "occupation",
+      "condition": "vulnerable_occupations",
+      "displayText": "Must belong to vulnerable occupational categories (e.g., street vendor, domestic worker, construction worker, etc.) as per SECC 2011 data"
+    },
+    {
+      "type": "income",
+      "condition": "no_regular_income",
+      "displayText": "No regular formal employment income"
+    }
+  ],
+  "exclusions": [
+    "Government employees",
+    "Income tax payers",
+    "Those with motorized 2/3/4 wheeler vehicles"
+  ],
+  "documents": [
+    "Aadhaar card",
+    "Ration card",
+    "Active mobile number"
+  ],
+  "applicationSteps": [
+    "Check eligibility on the PMJAY portal (mera.pmjay.gov.in) using mobile number or ration card",
+    "If eligible, visit nearest empanelled hospital or Common Service Centre (CSC)",
+    "Provide Aadhaar and ration card for e-KYC verification",
+    "Get Ayushman card printed"
+  ],
+  "sources": [
+    {
+      "id": "pmjay-official",
+      "title": "PMJAY Official Website",
+      "publisher": "National Health Authority, Govt of India",
+      "url": "https://pmjay.gov.in",
+      "jurisdiction": "IN",
+      "verifiedAt": "2026-01-15T00:00:00Z"
+    }
+  ],
+  "verifiedAt": "2026-01-15T00:00:00Z",
+  "reviewStatus": "reviewed"
+}

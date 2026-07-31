@@ -1,0 +1,69 @@
+{
+  "id": "pm-awas-yojana-urban-ews",
+  "officialName": "Pradhan Mantri Awas Yojana - Urban (Economically Weaker Section)",
+  "shortName": "PM Awas Yojana",
+  "summary": "Central government housing subsidy for economically weaker sections to buy or build a home",
+  "jurisdiction": "IN",
+  "status": "active",
+  "benefit": {
+    "type": "subsidy",
+    "displayText": "Up to ₹2.67 lakh interest subsidy on home loan",
+    "asOf": "2026-01-15T00:00:00Z"
+  },
+  "eligibility": [
+    {
+      "type": "income",
+      "condition": "annual_household_income_max",
+      "value": 300000,
+      "displayText": "Annual household income up to ₹3 lakh"
+    },
+    {
+      "type": "age",
+      "condition": "min_age",
+      "value": 18,
+      "displayText": "Age 18 or above"
+    },
+    {
+      "type": "housing",
+      "condition": "no_pucca_house",
+      "displayText": "Must not own a pucca (permanent) house anywhere in India"
+    },
+    {
+      "type": "location",
+      "condition": "urban_area",
+      "displayText": "Property must be in urban area"
+    }
+  ],
+  "exclusions": [
+    "Already owns a pucca house in their name or spouse's name",
+    "Previously received central housing scheme benefits"
+  ],
+  "documents": [
+    "Aadhaar card",
+    "Income certificate from competent authority",
+    "Property documents",
+    "Bank account details",
+    "Affidavit for not owning pucca house"
+  ],
+  "applicationSteps": [
+    "Visit official portal: https://pmaymis.gov.in",
+    "Click 'Citizen Assessment' for new application",
+    "Select 'Beneficiary Led Construction/Enhancement' category",
+    "Fill personal details and link Aadhaar",
+    "Upload required documents",
+    "Submit application and save Application ID",
+    "Track status online using Application ID"
+  ],
+  "sources": [
+    {
+      "id": "pmay-official-portal",
+      "title": "PM Awas Yojana Official Portal",
+      "publisher": "Ministry of Housing and Urban Affairs, Government of India",
+      "url": "https://pmaymis.gov.in",
+      "jurisdiction": "IN",
+      "verifiedAt": "2026-01-15T00:00:00Z"
+    }
+  ],
+  "verifiedAt": "2026-01-15T00:00:00Z",
+  "reviewStatus": "reviewed"
+}

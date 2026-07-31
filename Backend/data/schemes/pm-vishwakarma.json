@@ -1,0 +1,53 @@
+{
+  "id": "pm-vishwakarma",
+  "officialName": "PM Vishwakarma Yojana",
+  "shortName": "PM Vishwakarma",
+  "summary": "Support for traditional artisans and craftspeople through collateral-free loans, skill training, and toolkit incentives.",
+  "jurisdiction": "IN",
+  "status": "active",
+  "benefit": {
+    "type": "loan",
+    "displayText": "Collateral-free loan up to ₹3 lakh at 5% interest",
+    "asOf": "2026-01-15T00:00:00Z"
+  },
+  "eligibility": [
+    {
+      "type": "occupation",
+      "condition": "traditional_artisan",
+      "displayText": "Must be engaged in one of the 18 recognized traditional trades (e.g., carpenter, tailor, goldsmith, potter)"
+    },
+    {
+      "type": "age",
+      "condition": "min_age",
+      "value": 18,
+      "displayText": "Minimum age of 18 years"
+    }
+  ],
+  "exclusions": [
+    "Must not have availed loans under similar central/state schemes (PMEGP, PM SVANidhi, Mudra) in the past 5 years"
+  ],
+  "documents": [
+    "Aadhaar card",
+    "Bank account details",
+    "Mobile number linked to Aadhaar",
+    "Ration card"
+  ],
+  "applicationSteps": [
+    "Visit nearest Common Service Centre (CSC) to apply",
+    "Complete Aadhaar authentication (biometric)",
+    "Submit application form",
+    "Wait for Gram Panchayat / Urban Local Body verification"
+  ],
+  "sources": [
+    {
+      "id": "pm-vishwakarma-portal",
+      "title": "PM Vishwakarma Official Portal",
+      "publisher": "Ministry of Micro, Small and Medium Enterprises",
+      "url": "https://pmvishwakarma.gov.in",
+      "jurisdiction": "IN",
+      "verifiedAt": "2026-01-15T00:00:00Z"
+    }
+  ],
+  "verifiedAt": "2026-01-15T00:00:00Z",
+  "reviewStatus": "reviewed"
+}

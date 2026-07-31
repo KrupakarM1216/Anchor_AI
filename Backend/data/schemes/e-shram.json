@@ -1,0 +1,54 @@
+{
+  "id": "e-shram",
+  "officialName": "e-Shram Portal for Unorganized Workers",
+  "shortName": "e-Shram",
+  "summary": "National database for unorganized workers to provide social security and welfare benefits.",
+  "jurisdiction": "IN",
+  "status": "active",
+  "benefit": {
+    "type": "insurance",
+    "displayText": "₹2 lakh accidental insurance cover under PMSBY",
+    "asOf": "2026-01-15T00:00:00Z"
+  },
+  "eligibility": [
+    {
+      "type": "occupation",
+      "condition": "unorganized_worker",
+      "displayText": "Must be an unorganized worker (construction worker, migrant worker, gig worker, etc.)"
+    },
+    {
+      "type": "age",
+      "condition": "age_range",
+      "value": "16-59",
+      "displayText": "Age between 16 and 59 years"
+    }
+  ],
+  "exclusions": [
+    "Members of EPFO or ESIC",
+    "Income tax payers"
+  ],
+  "documents": [
+    "Aadhaar card",
+    "Aadhaar-linked active mobile number",
+    "Bank account details"
+  ],
+  "applicationSteps": [
+    "Visit e-Shram portal (eshram.gov.in)",
+    "Click on 'Register on eShram'",
+    "Enter Aadhaar linked mobile number and OTP",
+    "Fill in personal, educational, and bank details",
+    "Download UAN card"
+  ],
+  "sources": [
+    {
+      "id": "eshram-portal",
+      "title": "e-Shram Official Portal",
+      "publisher": "Ministry of Labour & Employment",
+      "url": "https://eshram.gov.in",
+      "jurisdiction": "IN",
+      "verifiedAt": "2026-01-15T00:00:00Z"
+    }
+  ],
+  "verifiedAt": "2026-01-15T00:00:00Z",
+  "reviewStatus": "reviewed"
+}

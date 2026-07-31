@@ -1,0 +1,49 @@
+{
+  "id": "scss",
+  "officialName": "Senior Citizen Savings Scheme",
+  "shortName": "SCSS",
+  "summary": "Government-backed savings scheme designed for senior citizens to provide a regular income stream.",
+  "jurisdiction": "IN",
+  "status": "active",
+  "benefit": {
+    "type": "investment",
+    "displayText": "Guaranteed return of 8.2% p.a. (subject to revision)",
+    "asOf": "2026-01-15T00:00:00Z"
+  },
+  "eligibility": [
+    {
+      "type": "age",
+      "condition": "min_age",
+      "value": 60,
+      "displayText": "Age 60 years or above (55 years for retired defense personnel/VRS)"
+    }
+  ],
+  "exclusions": [
+    "Non-Resident Indians (NRIs)",
+    "Hindu Undivided Families (HUFs)"
+  ],
+  "documents": [
+    "Aadhaar card",
+    "PAN card",
+    "Age proof",
+    "Photographs"
+  ],
+  "applicationSteps": [
+    "Visit nearest post office or authorized bank branch",
+    "Fill out SCSS application form",
+    "Submit KYC documents and age proof",
+    "Deposit amount (min ₹1000, max ₹30 lakh) via cheque or draft"
+  ],
+  "sources": [
+    {
+      "id": "indiapost-scss",
+      "title": "India Post SCSS Information",
+      "publisher": "Department of Posts",
+      "url": "https://www.indiapost.gov.in/Financial/Pages/Content/Post-Office-Saving-Schemes.aspx",
+      "jurisdiction": "IN",
+      "verifiedAt": "2026-01-15T00:00:00Z"
+    }
+  ],
+  "verifiedAt": "2026-01-15T00:00:00Z",
+  "reviewStatus": "reviewed"
+}
