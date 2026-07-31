@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "scripts": {
     "dev": "node --env-file=.env --watch src/server.mjs",
-    "start": "node --env-file=.env src/server.mjs"
+    "start": "node src/server.mjs"
   },
   "dependencies": {
     "openai": "^7.2.0",
