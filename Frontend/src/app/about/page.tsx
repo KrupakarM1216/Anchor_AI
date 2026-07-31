@@ -1,0 +1,1 @@
+export default function Page(){return <main className="info"><p className="eyebrow">ABOUT ANCHOR</p><h1>Expert guidance should not be a luxury.</h1><p>ANCHOR helps ordinary earners in India find the next safe step. It combines curated evidence with simple, cautious guidance. In this build every result is visibly marked as demo data.</p></main>}

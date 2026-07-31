@@ -1,0 +1,1 @@
+export default function Page(){return <main className="info"><p className="eyebrow">PRIVACY</p><h1>Your situation is not a profile.</h1><p>ANCHOR does not require an account and this demo does not retain your form submissions. Avoid entering sensitive financial or identity information. A future live-AI mode must explain provider data handling before it is enabled.</p></main>}
