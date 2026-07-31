@@ -160,7 +160,8 @@ export default function FinancialHealthScore() {
 
   const callAPI = async (allAnswers: Record<string, string>) => {
     try {
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+      const rawApiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+      const API_URL = rawApiUrl.split(/[\n\r]+/).pop()?.trim() || 'http://localhost:4000';
       const res = await fetch(`${API_URL}/api/v1/health/score`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

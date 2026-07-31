@@ -27,7 +27,8 @@ export default function SchemesPage() {
         ownsPuccaHouse
       };
 
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+      const rawApiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+      const API_URL = rawApiUrl.split(/[\n\r]+/).pop()?.trim() || 'http://localhost:4000';
       const res = await fetch(`${API_URL}/api/v1/schemes/match`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

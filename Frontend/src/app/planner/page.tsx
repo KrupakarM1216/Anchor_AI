@@ -3,7 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+const rawApiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+const API_URL = rawApiUrl.split(/[\n\r]+/).pop()?.trim() || "http://localhost:4000";
 
 interface PlanResult {
   summary: string;
