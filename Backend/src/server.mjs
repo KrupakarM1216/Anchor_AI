@@ -9,7 +9,7 @@ import { FRAUD_SYSTEM_PROMPT } from "./lib/prompts/fraud.mjs";
 import { HEALTH_SYSTEM_PROMPT } from "./lib/prompts/health.mjs";
 
 const port = Number(process.env.PORT || 4000);
-const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || "http://localhost:3000";
+const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || "*";
 const MAX_BODY = 32 * 1024; // 32 KB
 const AI_ENABLED = process.env.OPENAI_API_KEY && process.env.OPENAI_API_KEY !== "";
 
