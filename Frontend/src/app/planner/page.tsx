@@ -280,8 +280,8 @@ export default function PlannerPage() {
 
           {/* Actions */}
           <div className="result-actions">
-            <button onClick={() => navigator.clipboard.writeText(document.querySelector(".result")?.innerText ?? "")}>
-              Copy guidance
+              <button className="copy-btn" onClick={() => navigator.clipboard.writeText((document.querySelector(".result") as HTMLElement)?.innerText ?? "")}>
+                Copy guidance
             </button>
             <button onClick={() => window.print()}>Print</button>
             <button onClick={handleStartOver}>Start over</button>
