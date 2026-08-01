@@ -24,7 +24,7 @@ export default function Home() {
           <p className="lede">
             Clear guidance for everyday money, rights, fraud, and crisis questions—without bank logins or shame.
           </p>
-          <div style={{ display: "flex", gap: "1rem" }}>
+          <div className="hero-cta-wrapper" style={{ display: "flex", gap: "1rem" }}>
             <Link className="hero-cta" href="/planner">
               Get Early Access <span>→</span>
             </Link>
@@ -102,18 +102,18 @@ export default function Home() {
           ANCHOR continuously analyzes thousands of data points to find benefits and detect scams before they happen.
         </p>
 
-        <div style={{ background: "#09090B", border: "1px solid rgba(255,255,255,0.05)", borderRadius: "16px", padding: "1rem", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem", position: "relative", overflow: "hidden", boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)" }}>
+        <div className="showcase-grid" style={{ background: "#09090B", border: "1px solid rgba(255,255,255,0.05)", borderRadius: "16px", padding: "1rem", position: "relative", overflow: "hidden", boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)" }}>
           
           {/* Left Panel: Bar Chart */}
           <div style={{ background: "#111115", borderRadius: "12px", padding: "2.5rem 2rem", border: "1px solid rgba(255,255,255,0.03)", display: "flex", flexDirection: "column" }}>
             <div style={{ color: "#9CA3AF", fontSize: "0.85rem", marginBottom: "1.5rem" }}>Monthly Benefits Matched</div>
-            <div style={{ display: "flex", gap: "3rem", marginBottom: "3rem" }}>
+            <div className="showcase-stats">
               <div>
-                <div style={{ fontSize: "2.5rem", fontWeight: 700, color: "white", letterSpacing: "-0.02em" }}>142,029</div>
+                <div className="showcase-stat-value">142,029</div>
                 <div style={{ color: "#6B7280", fontSize: "0.8rem", marginTop: "0.25rem" }}>Potential benefits identified</div>
               </div>
               <div>
-                <div style={{ fontSize: "2.5rem", fontWeight: 700, color: "white", letterSpacing: "-0.02em" }}>42,562</div>
+                <div className="showcase-stat-value">42,562</div>
                 <div style={{ color: "#6B7280", fontSize: "0.8rem", marginTop: "0.25rem" }}>Earners successfully matched</div>
               </div>
             </div>
@@ -131,15 +131,15 @@ export default function Home() {
 
           {/* Right Panel: Line Chart */}
           <div style={{ background: "#111115", borderRadius: "12px", padding: "2.5rem 2rem", border: "1px solid rgba(255,255,255,0.03)", display: "flex", flexDirection: "column" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "3rem" }}>
+            <div className="showcase-stats" style={{ justifyContent: "space-between" }}>
               <div>
                 <div style={{ color: "#9CA3AF", fontSize: "0.85rem", marginBottom: "1.5rem" }}>Fraud Prevented</div>
-                <div style={{ fontSize: "2.5rem", fontWeight: 700, color: "white", letterSpacing: "-0.02em" }}>₹2.8 Cr</div>
+                <div className="showcase-stat-value">₹2.8 Cr</div>
                 <div style={{ color: "#10B981", fontSize: "0.85rem", marginTop: "0.25rem", display: "flex", alignItems: "center", gap: "0.25rem" }}><span>↑</span> 15% this month</div>
               </div>
               <div>
                 <div style={{ color: "#9CA3AF", fontSize: "0.85rem", marginBottom: "1.5rem" }}>Scams Detected</div>
-                <div style={{ fontSize: "2.5rem", fontWeight: 700, color: "white", letterSpacing: "-0.02em" }}>12,450</div>
+                <div className="showcase-stat-value">12,450</div>
                 <div style={{ color: "#10B981", fontSize: "0.85rem", marginTop: "0.25rem", display: "flex", alignItems: "center", gap: "0.25rem" }}><span>↑</span> 12% this month</div>
               </div>
             </div>

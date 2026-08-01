@@ -458,6 +458,7 @@ footer a:hover { color: var(--ink); }
 
 @media(max-width: 1024px) {
   .hero { flex-direction: column; text-align: center; padding-top: 6rem; }
+  .hero-cta-wrapper { justify-content: center; }
   .hero-visual { display: none; } /* Hide 3D on small screens to save space */
   .cards { grid-template-columns: repeat(2, 1fr); }
   .trusted-by { text-align: center; }
@@ -469,4 +470,26 @@ footer a:hover { color: var(--ink); }
   nav { display: none; }
   .cards { grid-template-columns: 1fr; }
   .numbers-grid { grid-template-columns: 1fr; }
+  .showcase-grid { grid-template-columns: 1fr !important; }
+  .showcase-stats { flex-direction: column; gap: 1.5rem !important; margin-bottom: 2rem !important; }
+  .showcase-stat-value { font-size: 2rem !important; }
+}
+
+.showcase-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.showcase-stats {
+  display: flex;
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+.showcase-stat-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: white;
+  letter-spacing: -0.02em;
 }
