@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
-export const metadata: Metadata = { title: "ANCHOR | Guidance for every earner", description: "Cautious, practical guidance for ordinary earners in India." };
+export const metadata: Metadata = { 
+  title: "ANCHOR | Guidance for every earner", 
+  description: "Cautious, practical guidance for ordinary earners in India.",
+  icons: {
+    icon: '/icon.svg?v=3'
+  }
+};
 export default function Layout({ children }: Readonly<{ children: React.ReactNode }>) { 
   return (
     <html lang="en-IN">
