@@ -1,11 +1,10 @@
 // Vercel deployment trigger
 import Link from "next/link";
-
 const cards = [
   ["planner", "Smart Life Planner", "Turn a messy financial situation into a short, realistic plan."],
-  ["lifeline", "🛟 Lifeline", "Crisis plan + every scheme you qualify for — instant, personalised, free."],
+  ["lifeline", "Lifeline", "Crisis plan + every scheme you qualify for — instant, personalised, free."],
   ["fraud", "Fraud Shield", "Check a financial offer before you act."],
-  ["health", "Financial Health Score", "See an educational snapshot of your financial resilience."]
+  ["borrowing", "Borrowing Safety Checker", "Check if a loan is safe, affordable, and free of hidden traps before you sign."]
 ] as const;
 
 export default function Home() { 
@@ -26,9 +25,7 @@ export default function Home() {
             Clear guidance for everyday money, rights, fraud, and crisis questions—without bank logins or shame.
           </p>
           <div className="hero-cta-wrapper" style={{ display: "flex", gap: "1rem" }}>
-            <Link className="hero-cta" href="/planner">
-              Get Early Access <span>→</span>
-            </Link>
+            {/* CTA removed as per user request */}
           </div>
           
           <div className="trusted-by">
@@ -92,7 +89,7 @@ export default function Home() {
       </section>
 
       {/* Mock Dashboard preview mimicking the provided image */}
-      <section className="dashboard-preview" style={{ maxWidth: "1180px", margin: "10rem auto 5rem", padding: "0 1.5rem", animation: "fadeUp 1s ease-out" }}>
+      <section id="how-it-works" className="dashboard-preview" style={{ maxWidth: "1180px", margin: "10rem auto 5rem", padding: "0 1.5rem", animation: "fadeUp 1s ease-out" }}>
         <h2 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 600, letterSpacing: "-0.03em", color: "white", marginBottom: "0.25rem" }}>
           Your AI already knows
         </h2>
@@ -103,53 +100,55 @@ export default function Home() {
           ANCHOR continuously analyzes thousands of data points to find benefits and detect scams before they happen.
         </p>
 
-        <div className="showcase-grid" style={{ background: "#09090B", border: "1px solid rgba(255,255,255,0.05)", borderRadius: "16px", padding: "1rem", position: "relative", overflow: "hidden", boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)" }}>
-          
-          {/* Left Panel: Bar Chart */}
-          <div style={{ background: "#111115", borderRadius: "12px", padding: "2.5rem 2rem", border: "1px solid rgba(255,255,255,0.03)", display: "flex", flexDirection: "column" }}>
-            <div style={{ color: "#9CA3AF", fontSize: "0.85rem", marginBottom: "1.5rem" }}>Monthly Benefits Matched</div>
-            <div className="showcase-stats">
-              <div>
-                <div className="showcase-stat-value">142,029</div>
-                <div style={{ color: "#6B7280", fontSize: "0.8rem", marginTop: "0.25rem" }}>Potential benefits identified</div>
-              </div>
-              <div>
-                <div className="showcase-stat-value">42,562</div>
-                <div style={{ color: "#6B7280", fontSize: "0.8rem", marginTop: "0.25rem" }}>Earners successfully matched</div>
-              </div>
+        <div className="showcase-grid" style={{ background: "#09090B", border: "1px solid rgba(255,255,255,0.05)", borderRadius: "16px", padding: "3rem", position: "relative", overflow: "hidden", boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
+            <div>
+              <h3 style={{ fontSize: "1.5rem", color: "#F9FAFB", marginBottom: "0.75rem", letterSpacing: "-0.02em" }}>How ANCHOR Works</h3>
+              <p style={{ color: "#9CA3AF", lineHeight: 1.6, fontSize: "1rem", maxWidth: "800px" }}>
+                ANCHOR is an AI-powered financial safety net designed specifically for everyday earners in India. It acts as an objective, highly intelligent advisor that helps you navigate financial distress, predatory loans, and sophisticated scams without jargon or judgment.
+              </p>
             </div>
             
-            {/* CSS Bar Chart */}
-            <div style={{ display: "flex", alignItems: "flex-end", gap: "8px", height: "120px", marginTop: "auto" }}>
-              {[30, 15, 45, 20, 70, 100, 30, 20, 40, 25, 45, 20, 60, 20].map((h, i) => (
-                <div key={i} style={{ flex: 1, position: "relative", height: "100%", display: "flex", alignItems: "flex-end" }}>
-                  <div style={{ width: "100%", height: "25%", background: "rgba(255,255,255,0.05)", position: "absolute", bottom: 0, borderRadius: "3px" }}></div>
-                  <div style={{ width: "100%", height: `${h}%`, background: "#3B82F6", borderRadius: "3px", position: "relative", zIndex: 1 }}></div>
-                </div>
-              ))}
-            </div>
-          </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "2rem", marginTop: "1rem" }}>
+              <div>
+                <h4 style={{ color: "#60A5FA", fontSize: "1.1rem", marginBottom: "0.5rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                  <span style={{ display: "grid", placeItems: "center", width: "24px", height: "24px", borderRadius: "50%", background: "rgba(96, 165, 250, 0.1)", fontSize: "0.8rem", fontWeight: "bold" }}>1</span>
+                  Context-Aware Analysis
+                </h4>
+                <p style={{ color: "#9CA3AF", lineHeight: 1.6, fontSize: "0.95rem" }}>
+                  ANCHOR takes in your messy, real-world financial situation—whether you're evaluating a sketchy loan offer, dealing with aggressive recovery agents, or trying to find government schemes. The AI analyzes the raw data to understand the nuances of your specific predicament.
+                </p>
+              </div>
+              
+              <div>
+                <h4 style={{ color: "#34D399", fontSize: "1.1rem", marginBottom: "0.5rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                  <span style={{ display: "grid", placeItems: "center", width: "24px", height: "24px", borderRadius: "50%", background: "rgba(52, 211, 153, 0.1)", fontSize: "0.8rem", fontWeight: "bold" }}>2</span>
+                  Pure Deterministic Logic
+                </h4>
+                <p style={{ color: "#9CA3AF", lineHeight: 1.6, fontSize: "0.95rem" }}>
+                  Before any AI generates advice, strict deterministic math and rule-based checks are applied. For example, our Borrowing Safety Checker instantly calculates the exact True Cost (APR) of a loan, catching hidden processing fees and predatory terms that AI alone might hallucinate.
+                </p>
+              </div>
+              
+              <div>
+                <h4 style={{ color: "#A78BFA", fontSize: "1.1rem", marginBottom: "0.5rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                  <span style={{ display: "grid", placeItems: "center", width: "24px", height: "24px", borderRadius: "50%", background: "rgba(167, 139, 250, 0.1)", fontSize: "0.8rem", fontWeight: "bold" }}>3</span>
+                  Actionable Intelligence
+                </h4>
+                <p style={{ color: "#9CA3AF", lineHeight: 1.6, fontSize: "0.95rem" }}>
+                  Instead of giving you a generic block of text, ANCHOR breaks down its findings into immediate, actionable steps. It provides negotiation scripts to lower interest rates, highlights red flags in contracts, and offers safer alternative funding methods tailored to your exact needs.
+                </p>
+              </div>
 
-          {/* Right Panel: Line Chart */}
-          <div style={{ background: "#111115", borderRadius: "12px", padding: "2.5rem 2rem", border: "1px solid rgba(255,255,255,0.03)", display: "flex", flexDirection: "column" }}>
-            <div className="showcase-stats" style={{ justifyContent: "space-between" }}>
               <div>
-                <div style={{ color: "#9CA3AF", fontSize: "0.85rem", marginBottom: "1.5rem" }}>Fraud Prevented</div>
-                <div className="showcase-stat-value">₹2.8 Cr</div>
-                <div style={{ color: "#10B981", fontSize: "0.85rem", marginTop: "0.25rem", display: "flex", alignItems: "center", gap: "0.25rem" }}><span>↑</span> 15% this month</div>
+                <h4 style={{ color: "#FBBF24", fontSize: "1.1rem", marginBottom: "0.5rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                  <span style={{ display: "grid", placeItems: "center", width: "24px", height: "24px", borderRadius: "50%", background: "rgba(251, 191, 36, 0.1)", fontSize: "0.8rem", fontWeight: "bold" }}>4</span>
+                  Empathetic Guidance
+                </h4>
+                <p style={{ color: "#9CA3AF", lineHeight: 1.6, fontSize: "0.95rem" }}>
+                  Financial distress is overwhelming. ANCHOR acts as a calm, objective advisor that speaks plainly. It strips away complex financial jargon and presents clear, cautious guidance designed to help you find your next safe step.
+                </p>
               </div>
-              <div>
-                <div style={{ color: "#9CA3AF", fontSize: "0.85rem", marginBottom: "1.5rem" }}>Scams Detected</div>
-                <div className="showcase-stat-value">12,450</div>
-                <div style={{ color: "#10B981", fontSize: "0.85rem", marginTop: "0.25rem", display: "flex", alignItems: "center", gap: "0.25rem" }}><span>↑</span> 12% this month</div>
-              </div>
-            </div>
-            
-            {/* CSS Line Chart / Area Chart */}
-            <div style={{ height: "120px", marginTop: "auto", position: "relative", background: "linear-gradient(180deg, rgba(59,130,246,0.15) 0%, rgba(59,130,246,0) 100%)", borderBottom: "3px solid #3B82F6" }}>
-               {/* Glowing dots */}
-               <div style={{ position: "absolute", left: "25%", bottom: "30px", width: "10px", height: "10px", background: "white", borderRadius: "50%", boxShadow: "0 0 15px 4px rgba(255,255,255,0.6)" }}></div>
-               <div style={{ position: "absolute", left: "65%", bottom: "60px", width: "10px", height: "10px", background: "white", borderRadius: "50%", boxShadow: "0 0 15px 4px rgba(255,255,255,0.6)" }}></div>
             </div>
           </div>
         </div>

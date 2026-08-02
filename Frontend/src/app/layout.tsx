@@ -21,7 +21,7 @@ export default function Layout({ children }: Readonly<{ children: React.ReactNod
             </Link>
             <nav aria-label="Primary">
               <Link href="/#tools">Features</Link>
-              <Link href="/about">How it works</Link>
+              <Link href="/#how-it-works">How it works</Link>
               <Link href="/safety">Safety</Link>
               <Link href="/planner" className="nav-cta">Get guidance</Link>
             </nav>
