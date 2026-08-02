@@ -2,279 +2,89 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import type { FraudAssessment } from '@/lib/fraud';
 
-interface FraudResult {
-  riskLevel: 'safe' | 'low' | 'medium' | 'high' | 'critical';
-  verdict: string;
-  confidence: string;
-  scamType: string;
-  redFlags: Array<{ flag: string; why: string; rule?: string }>;
-  greenFlags: string[];
-  whatWouldHappen: { narrative: string; estimatedLoss: string };
-  doNow: string[];
-  reportTo: Array<{ channel: string; how: string }>;
-  shareWarning: string;
-  relatedFeatures: string[];
-}
-
-const EXAMPLES = [
-  '🎯 Investment scam',
-  '📞 Fake bank call',
-  '💼 Job deposit scam',
-  '💰 Instant loan app',
-];
-
-const EXAMPLE_INPUTS: Record<string, string> = {
-  '🎯 Investment scam':
-    'Bhai ek app hai, guaranteed 35% return monthly. Sirf ₹10,000 se start karo. APK bhej raha hu, download karo, aaj hi invest kar do, kal price badh jayega.',
-  '📞 Fake bank call':
-    'A caller said he is from SBI, my account will be frozen unless I share the OTP just received to update my KYC. He knew my name and last 4 digits of my card.',
-  '💼 Job deposit scam':
-    'Got a work-from-home data entry job offer, ₹25,000/month. They said I need to pay ₹4,500 as security deposit and laptop registration fee before starting.',
-  '💰 Instant loan app':
-    '"Rupee Boost" app is offering ₹50,000 loan in 5 minutes, no documents, no CIBIL check. They asked for contacts and gallery access.',
+const examples = {
+  'Investment offer': 'I saw screenshots of people earning ₹40,000 to ₹80,000 a week from a trading app called WealthPro. They promise guaranteed 35% monthly returns, ask for a ₹5,000 minimum investment, and want me to download an APK from their website tonight.',
+  'Bank call': 'A caller says they are from my bank and my account will be frozen unless I share the OTP just sent to my phone to update KYC.',
+  'Job offer': 'I got a work-from-home data entry job offer for ₹25,000 a month. They want ₹4,500 as a security deposit and laptop registration fee before I start.',
+  'Loan app': 'An app promises a ₹50,000 loan in 5 minutes with no documents or CIBIL check. It asks for contacts and gallery access.',
 };
 
-const riskStyles = (level: string) => {
-  switch (level) {
-    case 'critical':
-      return { bg: 'rgba(244, 63, 94, 0.1)', border: '#f43f5e', text: '#fda4af', label: 'CRITICAL RISK', emoji: '🚨' };
-    case 'high':
-      return { bg: 'rgba(239, 68, 68, 0.1)', border: '#ef4444', text: '#fca5a5', label: 'HIGH RISK', emoji: '⚠️' };
-    case 'medium':
-      return { bg: 'rgba(245, 158, 11, 0.1)', border: '#f59e0b', text: '#fcd34d', label: 'MEDIUM RISK', emoji: '⚠️' };
-    case 'low':
-      return { bg: 'rgba(234, 179, 8, 0.1)', border: '#eab308', text: '#fef08a', label: 'LOW RISK', emoji: '👀' };
-    default:
-      return { bg: 'rgba(34, 197, 94, 0.1)', border: '#22c55e', text: '#86efac', label: 'LOOKS SAFE', emoji: '✅' };
-  }
-};
+const riskCopy = {
+  critical: ['Critical risk', 'Stop and secure your accounts now.'],
+  high: ['High risk', 'Do not send money, install an app, or share any code.'],
+  medium: ['Needs verification', 'Pause before acting and check the details independently.'],
+  low: ['Low risk', 'No strong pattern detected, but still verify the source.'],
+  safe: ['Looks safer', 'Continue only after checking the official details.'],
+} as const;
 
 export default function FraudPage() {
   const [input, setInput] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<FraudResult | null>(null);
+  const [result, setResult] = useState<FraudAssessment | null>(null);
+  const [status, setStatus] = useState<'idle' | 'reading' | 'analysing'>('idle');
   const [error, setError] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
 
-  const handleSubmit = async () => {
-    setError(null);
-    setResult(null);
-    setLoading(true);
-
+  const scan = async () => {
+    const message = input.trim();
+    if (message.length < 3) return;
+    setError(null); setResult(null); setStatus('reading');
+    const timer = window.setTimeout(() => setStatus('analysing'), 550);
     try {
-      const rawApiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
-      const API_URL = rawApiUrl.split(/[\n\r]+/).pop()?.trim() || 'http://localhost:4000';
-      const response = await fetch(`${API_URL}/api/v1/fraud/analyze`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ input, language: 'en' }),
+      const response = await fetch('/api/v1/fraud/analyze', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ input: message, language: 'en' }),
       });
-
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error || 'Failed to scan');
-      setResult(data);
-    } catch (err: any) {
-      setError(err.message || 'Something went wrong. Please try again.');
-    } finally {
-      setLoading(false);
-    }
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(payload.error?.message ?? payload.error ?? 'The scan could not be completed.');
+      setResult(payload.data ?? payload);
+    } catch (scanError) {
+      setError(scanError instanceof Error ? scanError.message : 'Unable to scan this right now. Please try again.');
+    } finally { window.clearTimeout(timer); setStatus('idle'); }
   };
 
-  const loadExample = (key: string) => {
-    setInput(EXAMPLE_INPUTS[key]);
-    setResult(null);
-    setError(null);
+  const selectExample = (text: string) => { setInput(text); setResult(null); setError(null); };
+  const copyWarning = async () => {
+    if (!result?.shareWarning) return;
+    await navigator.clipboard?.writeText(result.shareWarning);
+    setCopied(true); window.setTimeout(() => setCopied(false), 1800);
   };
+  const busy = status !== 'idle';
 
-  const risk = result ? riskStyles(result.riskLevel) : null;
+  return <main className="fraud-page">
+    <div className="fraud-glow" />
+    <Link href="/" className="fraud-back">← Back to ANCHOR</Link>
+    <section className="fraud-hero">
+      <div className="fraud-kicker"><span /> AI-powered safety check</div>
+      <h1>Check an offer <em>before it costs you.</em></h1>
+      <p>Paste a message, describe a call, or explain an offer. ANCHOR checks common scam patterns in real time and tells you what to do next.</p>
+    </section>
 
-  return (
-    <div className="feature-wrap">
-      <div className="saas-grid-bg"></div>
-      <div className="saas-glow" style={{ opacity: 0.3 }}></div>
-      <Link href="/" className="back">
-        ← All guidance
-      </Link>
-
-      <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-        <h1 style={{ marginBottom: '0.5rem' }}>🛡️ Fraud Shield</h1>
-        <p className="lede">
-          Scan any message, call, or offer before you say yes. We'll tell you if it's a scam in 3 seconds.
-        </p>
-      </div>
-
-      <div className="card" style={{ marginBottom: '1.5rem', background: 'var(--surface)' }}>
-        <label style={{ display: 'block', marginBottom: '0.75rem', fontSize: '0.9rem', fontWeight: 600 }}>
-          Paste the message, describe the call, or type what someone is offering you.
-        </label>
-        <textarea
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Example: Got a WhatsApp about an investment app promising 35% guaranteed returns..."
-          style={{
-            width: '100%',
-            height: '160px',
-            background: 'var(--bg)',
-            border: '1px solid var(--line)',
-            borderRadius: '0.5rem',
-            padding: '1rem',
-            color: 'var(--ink)',
-            resize: 'none',
-            fontSize: '1rem'
-          }}
-        />
-
-        <div style={{ marginTop: '0.75rem', display: 'flex', flexWrap: 'wrap', gap: '0.5rem', alignItems: 'center' }}>
-          <span style={{ fontSize: '0.8rem', color: 'var(--muted)' }}>Try:</span>
-          {EXAMPLES.map((ex) => (
-            <button
-              key={ex}
-              onClick={() => loadExample(ex)}
-              style={{
-                fontSize: '0.75rem',
-                background: 'var(--bg)',
-                color: 'var(--ink)',
-                padding: '0.25rem 0.75rem',
-                borderRadius: '99px',
-                border: '1px solid var(--line)',
-                cursor: 'pointer'
-              }}
-            >
-              {ex}
-            </button>
-          ))}
-        </div>
-
-        <button
-          onClick={handleSubmit}
-          disabled={loading || input.trim().length < 3}
-          style={{ width: '100%', marginTop: '1.5rem', opacity: (loading || input.trim().length < 3) ? 0.5 : 1 }}
-        >
-          {loading ? 'Scanning for red flags…' : '🛡️ Scan This Now'}
+    <section className="fraud-workspace" aria-label="Fraud scan">
+      <div className="fraud-input-card">
+        <div className="fraud-card-heading"><div><h2>What happened?</h2><p>Do not include OTPs, PINs, passwords, or full account numbers.</p></div><span className="fraud-private">🔒 Private scan</span></div>
+        <textarea value={input} onChange={(event) => setInput(event.target.value)} placeholder="Example: Someone offered guaranteed returns and asked me to install an app…" aria-label="Message or offer to scan" />
+        <div className="fraud-editor-footer"><span>{input.length}/5,000</span><span>We analyse the text, not your contacts or device.</span></div>
+        <div className="fraud-examples"><span>Quick examples</span>{Object.entries(examples).map(([label, text]) => <button key={label} className="fraud-chip" onClick={() => selectExample(text)}>{label}</button>)}</div>
+        <button className="fraud-scan-button" onClick={scan} disabled={busy || input.trim().length < 3}>
+          {busy ? <><i className="fraud-spinner" />{status === 'reading' ? 'Reading the message…' : 'Checking risk signals…'}</> : <>Scan safely <span>→</span></>}
         </button>
       </div>
+      <aside className="fraud-side-card"><span className="fraud-side-icon">⌁</span><h2>Made for a quick decision</h2><ul><li>Clear risk level, not jargon</li><li>Exact warning signs explained</li><li>Practical steps if you already acted</li></ul><p>AI helps assess patterns. Always verify a company through its official channels.</p></aside>
+    </section>
 
-      {error && (
-        <div style={{ background: 'rgba(239, 68, 68, 0.1)', border: '1px solid #ef4444', borderRadius: '0.5rem', padding: '1rem', marginBottom: '1.5rem' }}>
-          <p style={{ color: '#fca5a5', margin: 0 }}>⚠️ {error}</p>
+    {error && <div className="fraud-error" role="alert"><strong>Scan unavailable</strong><span>{error}</span><button onClick={scan}>Try again</button></div>}
+
+    {result && <section className="fraud-results" aria-live="polite">
+      <div className={`fraud-verdict fraud-${result.riskLevel}`}><div><span className="fraud-risk-dot" />{riskCopy[result.riskLevel][0]} <small>· {result.mode === 'live' ? 'Live AI analysis' : 'Guided safety analysis'} · {result.confidence} confidence</small></div><h2>{result.verdict}</h2><p>{riskCopy[result.riskLevel][1]} <span>{result.scamType}</span></p></div>
+      <div className="fraud-result-grid">
+        <div className="fraud-main-results">
+          {result.redFlags.length > 0 && <article className="fraud-panel"><h2>Warning signs found</h2>{result.redFlags.map((flag, index) => <div className="fraud-flag" key={`${flag.flag}-${index}`}><b>{flag.flag}</b><p>{flag.why}</p>{flag.rule && <small>{flag.rule}</small>}</div>)}</article>}
+          <article className="fraud-panel"><h2>If you continue</h2><p className="fraud-narrative">{result.whatWouldHappen.narrative}</p><div className="fraud-loss"><span>Potential loss</span><strong>{result.whatWouldHappen.estimatedLoss}</strong></div></article>
         </div>
-      )}
-
-      {result && risk && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-          
-          <div style={{ borderRadius: '0.5rem', padding: '1.5rem', background: risk.bg, border: `2px solid ${risk.border}` }}>
-            <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 800, color: risk.text, marginBottom: '0.5rem' }}>
-              {risk.emoji} {risk.label} · Confidence: {result.confidence}
-            </div>
-            <p style={{ fontSize: '1.5rem', fontWeight: 700, margin: '0 0 0.5rem 0', color: 'var(--ink)' }}>{result.verdict}</p>
-            <p style={{ fontSize: '0.9rem', color: 'var(--muted)', margin: 0 }}>Type: {result.scamType}</p>
-          </div>
-
-          {result.redFlags?.length > 0 && (
-            <div className="card" style={{ border: '1px solid #fca5a5' }}>
-              <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#ef4444', marginBottom: '1rem' }}>
-                🔴 Red Flags Detected
-              </h2>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                {result.redFlags.map((rf, i) => (
-                  <li key={i} style={{ borderLeft: '3px solid #ef4444', paddingLeft: '1rem' }}>
-                    <p style={{ fontWeight: 600, margin: '0 0 0.25rem 0' }}>"{rf.flag}"</p>
-                    <p style={{ fontSize: '0.9rem', color: 'var(--ink)', margin: '0 0 0.25rem 0' }}>{rf.why}</p>
-                    {rf.rule && (
-                      <p style={{ fontSize: '0.8rem', color: '#ef4444', fontStyle: 'italic', margin: 0 }}>{rf.rule}</p>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {result.greenFlags?.length > 0 && (
-            <div className="card" style={{ border: '1px solid #86efac' }}>
-              <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#22c55e', marginBottom: '0.75rem' }}>
-                ✅ What Looks Legit
-              </h2>
-              <ul style={{ margin: 0, paddingLeft: '1.5rem' }}>
-                {result.greenFlags.map((g, i) => (
-                  <li key={i} style={{ fontSize: '0.9rem', marginBottom: '0.25rem' }}>{g}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {result.whatWouldHappen?.narrative && (
-            <div className="card" style={{ border: '1px solid #fcd34d' }}>
-              <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#d97706', marginBottom: '0.75rem' }}>
-                🎬 What Would Actually Happen
-              </h2>
-              <p style={{ lineHeight: 1.5, margin: 0 }}>
-                {result.whatWouldHappen.narrative}
-              </p>
-              {result.whatWouldHappen.estimatedLoss && (
-                <div style={{ marginTop: '1rem', background: '#fef2f2', border: '1px solid #fca5a5', borderRadius: '0.5rem', padding: '0.75rem' }}>
-                  <p style={{ fontSize: '0.7rem', color: '#ef4444', textTransform: 'uppercase', letterSpacing: '0.05em', margin: '0 0 0.25rem 0' }}>Estimated loss</p>
-                  <p style={{ fontSize: '1.5rem', fontWeight: 800, color: '#b91c1c', margin: 0 }}>
-                    {result.whatWouldHappen.estimatedLoss}
-                  </p>
-                </div>
-              )}
-            </div>
-          )}
-
-          {result.doNow?.length > 0 && (
-            <div className="card">
-              <h2 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '1rem' }}>Do This Now</h2>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                {result.doNow.map((step, i) => (
-                  <li key={i} style={{ display: 'flex', gap: '0.75rem', fontWeight: 500 }}>
-                    <span style={{ color: '#d97706' }}>✓</span>
-                    <span>{step}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {result.reportTo?.length > 0 && (
-            <div className="card">
-              <h2 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.75rem' }}>
-                📢 Report It
-              </h2>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                {result.reportTo.map((r, i) => (
-                  <li key={i}>
-                    <p style={{ fontWeight: 600, margin: '0 0 0.25rem 0' }}>{r.channel}</p>
-                    <p style={{ fontSize: '0.9rem', color: 'var(--muted)', margin: 0 }}>{r.how}</p>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {result.shareWarning && (
-            <div style={{ background: '#fffbeb', border: '1px solid #fcd34d', borderRadius: '0.5rem', padding: '1.5rem' }}>
-              <h2 style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#d97706', margin: '0 0 0.5rem 0' }}>
-                📲 Forward This to Family
-              </h2>
-              <p style={{ color: '#b45309', fontStyle: 'italic', margin: '0 0 1rem 0' }}>"{result.shareWarning}"</p>
-              <button
-                onClick={() => navigator.clipboard?.writeText(result.shareWarning)}
-                style={{ fontSize: '0.75rem', padding: '0.5rem 1rem', background: '#d97706', color: '#fff', border: 'none', borderRadius: '0.25rem' }}
-              >
-                Copy Warning
-              </button>
-            </div>
-          )}
-
-          <button
-            onClick={() => { setResult(null); setInput(''); }}
-            style={{ width: '100%', background: 'var(--ink)', color: 'var(--bg)', padding: '1rem', border: 'none', borderRadius: '0.5rem', fontWeight: 600 }}
-          >
-            Scan Another
-          </button>
-        </div>
-      )}
-    </div>
-  );
+        <div className="fraud-actions"><article className="fraud-panel fraud-now"><h2>Do this now</h2><ol>{result.doNow.map((step, index) => <li key={step}><span>0{index + 1}</span>{step}</li>)}</ol></article><article className="fraud-panel"><h2>Need to report it?</h2>{result.reportTo.map((channel) => <p className="fraud-report" key={channel.channel}><b>{channel.channel}</b>{channel.how}</p>)}</article></div>
+      </div>
+      <div className="fraud-share"><div><span>Protect someone else</span><p>{result.shareWarning}</p></div><button onClick={copyWarning}>{copied ? 'Copied' : 'Copy warning'}</button></div>
+    </section>}
+  </main>;
 }

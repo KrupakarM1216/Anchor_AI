@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 export default function Layout({ children }: Readonly<{ children: React.ReactNode }>) { 
   return (
-    <html lang="en-IN">
+    <html lang="en-IN" data-scroll-behavior="smooth">
       <body>
         <a className="skip" href="#main">Skip to content</a>
         

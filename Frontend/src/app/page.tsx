@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const cards = [
   ["planner", "Smart Life Planner", "Turn a messy financial situation into a short, realistic plan."],
-  ["schemes", "Scheme Scanner", "Find programmes you may be able to verify and apply for."],
+  ["lifeline", "🛟 Lifeline", "Crisis plan + every scheme you qualify for — instant, personalised, free."],
   ["fraud", "Fraud Shield", "Check a financial offer before you act."],
   ["health", "Financial Health Score", "See an educational snapshot of your financial resilience."]
 ] as const;
@@ -74,7 +74,7 @@ export default function Home() {
         
         <div className="cards">
           {cards.map(([slug, title, description], i) => (
-            <Link href={`/${slug}`} className="card" key={slug}>
+            <Link href={`/${slug}`} prefetch={slug === "lifeline"} className="card" key={slug}>
               <div className="card-icon">
                 {/* Micro 3D icons for each card */}
                 <div className="isometric-container" style={{ transform: "scale(0.5)" }}>
